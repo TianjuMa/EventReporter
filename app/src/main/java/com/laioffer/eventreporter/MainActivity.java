@@ -16,13 +16,6 @@ public class MainActivity extends AppCompatActivity {
         // Get ListView object from xml.
         ListView eventListView = (ListView) findViewById(R.id.event_list);
 
-        // Initialize an adapter.
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-//                this,
-//                R.layout.event_item,
-//                R.id.event_name,
-//                getEventNames());
-
         EventAdapter adapter = new EventAdapter(this);
         // Assign adapter to ListView.
         eventListView.setAdapter(adapter);
