@@ -2,6 +2,7 @@ package com.laioffer.eventreporter;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.ListView;
  */
 public class EventFragment extends Fragment {
     OnItemSelectListener mCallback;
+    private ListView mListView;
 
     // Container Activity must implement this interface
     public interface OnItemSelectListener {
@@ -42,24 +44,33 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_event, container, false);
-        ListView listView = (ListView) view.findViewById(R.id.event_list);
-        listView.setAdapter(new EventAdapter(getActivity()));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+        mListView = (ListView) view.findViewById(R.id.event_list);
+        mListView.setAdapter(new EventAdapter(getActivity()));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_list_item_1,
                 getEventNames());
 
         // Assign adapter to ListView.
-        listView.setAdapter(adapter);
+        mListView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mCallback.onItemSelected(i);
             }
         });
-
         return view;
+    }
+
+    public void onItemSelected(int position){
+        for (int i = 0; i < mListView.getChildCount(); i++){
+            if (position == i) {
+                mListView.getChildAt(i).setBackgroundColor(Color.BLUE);
+            } else {
+                mListView.getChildAt(i).setBackgroundColor(Color.parseColor("#EEEEEE"));
+            }
+        }
     }
 
     private String[] getEventNames() {
