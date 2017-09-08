@@ -1,5 +1,6 @@
 package com.laioffer.eventreporter;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -61,11 +62,11 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnI
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(username)) {
-                            Toast.makeText(getBaseContext(),"username is already registered, please change one", Toast.LENGTH_SHORT).show();
-                        } else if (!username.equals("") && !password.equals("")){
+                            Toast.makeText(getBaseContext(), "username is already registered, please change one", Toast.LENGTH_SHORT).show();
+                        } else if (!username.equals("") && !password.equals("")) {
                             // put username as key to set value
                             mDatabase.child("users").child(user.getUsername()).setValue(user);
-                            Toast.makeText(getBaseContext(),"Successfully registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Successfully registered", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -86,9 +87,13 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnI
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.hasChild(username) && (password.equals(dataSnapshot.child(username).child("password").getValue()))) {
-                            Log.i( " Your log", "You successfully login");
+                            Log.i(" Your log", "You successfully login");
+                            Intent myIntent = new Intent(MainActivity.this, EventActivity.class);
+                            Utils.username = username;
+                            startActivity(myIntent);
+
                         } else {
-                            Toast.makeText(getBaseContext(),"Please login again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Please login again", Toast.LENGTH_SHORT).show();
                         }
                     }
 
