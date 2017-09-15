@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnI
     private DatabaseReference mDatabase;
 
     public MainActivity() {
+
     }
 
 
@@ -42,15 +45,9 @@ public class MainActivity extends AppCompatActivity implements EventFragment.OnI
         mSubmitButton = (Button) findViewById(R.id.submit);
         mRegisterButton = (Button) findViewById(R.id.register);
 
-//        //add list view
-//        mListFragment = new EventFragment();
-//        getSupportFragmentManager().beginTransaction().add(R.id.event_container, mListFragment).commit();
-//
-//        //add Gridview
-//        if (isTablet()) {
-//            mGridFragment = new CommentFragment();
-//            getSupportFragmentManager().beginTransaction().add(R.id.comment_container, mGridFragment).commit();
-//        }
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
