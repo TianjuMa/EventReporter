@@ -1,6 +1,7 @@
 package com.laioffer.eventreporter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,12 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     //constructor
     public EventListAdapter(List<Event> events, final Context context) {
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        Collections.sort(events, new Comparator<Event>() {
+            @Override
+            public int compare(Event o1, Event o2) {
+                return (int) (o2.getTime() - o1.getTime());
+            }
+        });
         eventList = new ArrayList<>();
         int count = 0;
         for (int i = 0; i < events.size(); i++) {
@@ -213,6 +222,17 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
             }
         });
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, CommentActivity.class);
+                String eventId = event.getId();
+                intent.putExtra("EventID", eventId);
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 
